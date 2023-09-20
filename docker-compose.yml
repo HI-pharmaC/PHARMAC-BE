@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backend-dev:
-    image: pharmac/pharmac-backend-dev
+    image: pharmac19/pharmac-backend-dev
     container_name: backend-dev
     hostname: backend-dev
     expose:
