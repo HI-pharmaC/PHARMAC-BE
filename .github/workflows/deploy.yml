@@ -43,7 +43,7 @@ jobs:
 
       # Gradle build
       - name: Build with Gradle
-        run: ./gradlew build -x test :spotlessApply
+        run: ./gradlew build -x test
 
       - name: Docker meta
         id: docker_meta
