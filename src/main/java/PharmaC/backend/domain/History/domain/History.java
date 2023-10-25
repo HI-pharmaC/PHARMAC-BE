@@ -1,6 +1,6 @@
 package PharmaC.backend.domain.History.domain;
 
-import PharmaC.backend.domain.User.domain.Gender;
+import PharmaC.backend.domain.History.vo.HistoryVo;
 import PharmaC.backend.domain.User.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -38,20 +38,19 @@ public class History {
     private String symptom;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
 
     @Nullable
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    @Nullable
-    @Size(max = 300)
-    private String nowState;
+    @NotNull
+    private Boolean nowState;
 
     // 생성자
     @Builder
-    private History(Long id, User user, String name, String symptom, Date startDate, Date endDate, String nowState) {
+    private History(Long id, User user, String name, String symptom, Date startDate, Date endDate, Boolean nowState) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -62,4 +61,14 @@ public class History {
     }
 
     // 정적 메소드 팩토리
+    public static History of(HistoryVo historyVo, User user) {
+        return History.builder()
+                .user(user)
+                .name(historyVo.getName())
+                .symptom(historyVo.getSymptom())
+                .startDate(historyVo.getStartDate())
+                .endDate(historyVo.getEndDate())
+                .nowState(historyVo.getNowState())
+                .build();
+    }
 }
