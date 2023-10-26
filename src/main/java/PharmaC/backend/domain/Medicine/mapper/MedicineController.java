@@ -28,6 +28,11 @@ public class MedicineController {
         return medicineService.getSelectedMedicine(code);
     }
 
+//    @GetMapping("/item/{name}")
+//    public List<MedicineDTO> getSearchedMedicineByName(@PathVariable String name) throws IOException {
+//        return medicineService.getSearchedMedicineByName(name);
+//    }
+
 //    @GetMapping("/{code}") // pharma-c/medicine/{code}
 //    public List<MedicineDTO> getSelectedMedicines(@PathVariable int code) throws IOException {
 //        return medicineService.getSelectedMedicines(code);

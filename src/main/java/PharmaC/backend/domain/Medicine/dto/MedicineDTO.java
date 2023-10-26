@@ -15,7 +15,7 @@ public class MedicineDTO {
     private String name; // 약 이름 itemName
     private String itemCode; // 약품 코드 itemSeq
     private String company; // 제조회사 entpName
-    // private String image; // 사진 없어서 보류
+    private String image; // 사진 없어서 보류
     private String effect; // 효능 efcyQesitm
     private String takeMethod; // 복용법 useMethodQesitm
     private String precaution; // 주의사항 경고 atpnWarnQesitm
