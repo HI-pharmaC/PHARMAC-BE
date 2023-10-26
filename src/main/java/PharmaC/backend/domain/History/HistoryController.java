@@ -2,6 +2,7 @@ package PharmaC.backend.domain.History;
 
 import PharmaC.backend.domain.History.dto.HistoryDTO;
 import PharmaC.backend.domain.History.dto.request.AddHistoryRequestDTO;
+import PharmaC.backend.domain.History.dto.request.UpdateHistoryRequestDTO;
 import PharmaC.backend.domain.History.service.HistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +41,18 @@ public class HistoryController {
     public List<HistoryDTO> getAllHistory(
             @PathVariable(name = "userId") Long userId
     ) {
-        log.info("회원 복용기록 조회(최신순)");
+        log.info("회원 복용기록 조회(최신순)하기");
         return historyService.getAllHistory(userId);
+    }
+
+    @Operation(summary = "회원 복용기록 수정")
+    @PatchMapping("/{historyId}")
+    public HistoryDTO updateHistory(
+            @PathVariable(name = "historyId") Long historyId,
+            @RequestBody UpdateHistoryRequestDTO updateHistoryRequestDTO
+    ) {
+        log.info("회원 복용기록 수정하기");
+        return historyService.updateHistory(updateHistoryRequestDTO, historyId);
     }
 
 }

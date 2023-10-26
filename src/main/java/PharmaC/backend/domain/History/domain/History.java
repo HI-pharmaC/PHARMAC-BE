@@ -1,5 +1,6 @@
 package PharmaC.backend.domain.History.domain;
 
+import PharmaC.backend.domain.History.dto.request.UpdateHistoryRequestDTO;
 import PharmaC.backend.domain.History.vo.HistoryVo;
 import PharmaC.backend.domain.User.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import org.hibernate.sql.Update;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,7 +43,7 @@ public class History {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @Nullable
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
 
@@ -70,5 +72,27 @@ public class History {
                 .endDate(historyVo.getEndDate())
                 .nowState(historyVo.getNowState())
                 .build();
+    }
+
+    public void update(UpdateHistoryRequestDTO request) {
+        HistoryVo historyInfo = request.getHistoryVo();
+        if (historyInfo.getName() != null) {
+            this.name = historyInfo.getName();
+        }
+        if (historyInfo.getSymptom() != null) {
+            this.symptom = historyInfo.getSymptom();
+        }
+        if (historyInfo.getStartDate() != null) {
+            this.startDate = historyInfo.getStartDate();
+        }
+        if (historyInfo.getEndDate() != null) {
+            this.endDate = historyInfo.getEndDate();
+        }
+        if (historyInfo.getNowState() != null) {
+            this.nowState = historyInfo.getNowState();
+            if (nowState == true) {
+                endDate = new Date();
+            }
+        }
     }
 }

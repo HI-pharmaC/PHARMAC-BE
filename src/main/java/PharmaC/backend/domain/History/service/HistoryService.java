@@ -3,6 +3,8 @@ package PharmaC.backend.domain.History.service;
 import PharmaC.backend.domain.History.domain.History;
 import PharmaC.backend.domain.History.dto.HistoryDTO;
 import PharmaC.backend.domain.History.dto.request.AddHistoryRequestDTO;
+import PharmaC.backend.domain.History.dto.request.UpdateHistoryRequestDTO;
+import PharmaC.backend.domain.History.exception.HistoryNotFound;
 import PharmaC.backend.domain.History.mapper.HistoryMapper;
 import PharmaC.backend.domain.History.repository.HistoryRepository;
 import PharmaC.backend.domain.User.domain.User;
@@ -37,6 +39,13 @@ public class HistoryService {
         List<History> historyList = historyRepository.findAllByUser(user);
         List<History> sortedHistoryList = historyMapper.sortHistory(historyList);
         return historyMapper.toDtoList(sortedHistoryList);
+    }
+
+    @Transactional
+    public HistoryDTO updateHistory(UpdateHistoryRequestDTO updateHistoryRequestDTO, Long historyId) {
+        History history = historyRepository.findById(historyId).orElseThrow(() -> { throw HistoryNotFound.EXCEPTION; });
+        history.update(updateHistoryRequestDTO);
+        return HistoryDTO.entityToDto(history);
     }
 
 }
