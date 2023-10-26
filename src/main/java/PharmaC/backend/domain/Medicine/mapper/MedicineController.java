@@ -28,6 +28,7 @@ public class MedicineController {
         return medicineService.getSelectedMedicine(code);
     }
 
+
 //    @GetMapping("/item/{name}")
 //    public List<MedicineDTO> getSearchedMedicineByName(@PathVariable String name) throws IOException {
 //        return medicineService.getSearchedMedicineByName(name);
