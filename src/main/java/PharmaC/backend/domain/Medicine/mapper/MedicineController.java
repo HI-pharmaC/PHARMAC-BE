@@ -5,9 +5,7 @@ import PharmaC.backend.domain.Medicine.service.MedicineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,8 +17,19 @@ public class MedicineController {
 
     private final MedicineService medicineService;
 
-    @GetMapping("/search")
+    // 약품 전체 조회
+    @GetMapping() // pharma-c/medicine
     public List<MedicineDTO> getAllMedicines() throws IOException {
        return medicineService.getAllMedicine();
     }
+
+    @GetMapping("/item/{code}")
+    public List<MedicineDTO> getSelectedMedicine(@PathVariable Long code) throws IOException {
+        return medicineService.getSelectedMedicine(code);
+    }
+
+//    @GetMapping("/{code}") // pharma-c/medicine/{code}
+//    public List<MedicineDTO> getSelectedMedicines(@PathVariable int code) throws IOException {
+//        return medicineService.getSelectedMedicines(code);
+//    }
 }
