@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +27,13 @@ public class HistoryController {
 
     private final HistoryService historyService;
 
-    @Operation(summary = "회원 복용기록 생성하기")
+    @Operation(summary = "복용기록 생성하기")
     @PostMapping("/{userId}")
     public HistoryDTO createHistory(
             @RequestBody AddHistoryRequestDTO addHistoryRequestDTO,
             @PathVariable(name = "userId") Long userId
     ) {
-        log.info("회원 복용기록 생성하기");
+        log.info("복용기록 생성하기");
         return historyService.createHistory(addHistoryRequestDTO, userId);
     }
 
@@ -45,14 +46,23 @@ public class HistoryController {
         return historyService.getAllHistory(userId);
     }
 
-    @Operation(summary = "회원 복용기록 수정")
+    @Operation(summary = "복용기록 수정")
     @PatchMapping("/{historyId}")
     public HistoryDTO updateHistory(
             @PathVariable(name = "historyId") Long historyId,
             @RequestBody UpdateHistoryRequestDTO updateHistoryRequestDTO
     ) {
-        log.info("회원 복용기록 수정하기");
+        log.info("복용기록 수정하기");
         return historyService.updateHistory(updateHistoryRequestDTO, historyId);
+    }
+
+    @Operation(summary = "복용기록 삭제")
+    @DeleteMapping("/{historyId}")
+    public void deleteHistory(
+            @PathVariable(name = "historyId") Long historyId
+    ) {
+        log.info("복용기록 삭제하기");
+        historyService.deleteHistory(historyId);
     }
 
 }

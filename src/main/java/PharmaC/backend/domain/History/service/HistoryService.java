@@ -48,4 +48,10 @@ public class HistoryService {
         return HistoryDTO.entityToDto(history);
     }
 
+    @Transactional
+    public void deleteHistory(Long historyId) {
+        History history = historyRepository.findById(historyId).orElseThrow(() -> { throw HistoryNotFound.EXCEPTION; });
+        historyRepository.delete(history);
+    }
+
 }
