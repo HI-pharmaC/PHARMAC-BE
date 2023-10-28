@@ -54,6 +54,13 @@ public class UserService {
                 .build();
     }
 
+    public boolean checkSiteId(String siteId){
+        if(userRepository.existsBySiteId(siteId)){
+            throw new IllegalArgumentException("이미 가입된 아이디 입니다.");
+        }
+        return true;
+    }
+
     private User validateLoginStatus() {
         return userRepository.findBySiteId(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("로그인을 해주세요."));
