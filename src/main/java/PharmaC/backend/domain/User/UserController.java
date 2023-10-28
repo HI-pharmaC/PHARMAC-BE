@@ -39,6 +39,11 @@ public class UserController {
         return userService.login(requestDto);
     }
 
+    @PostMapping("siteId")
+    public boolean checkSiteId(@RequestBody String siteId){
+        return userService.checkSiteId(siteId);
+    }
+
     @Operation(summary = "회원 이미지 url 생성하기")
     @GetMapping("/image")
     public AwsS3Url getImageUrl() {
