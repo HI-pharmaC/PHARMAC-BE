@@ -27,7 +27,7 @@ public class MedicineService {
 
         List<MedicineDTO> medicineDTOS = new ArrayList<>();
 
-        for(int i=1; i<=10; i++) {
+        for(int i=1; i<=47; i++) {
             try {
                 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList"); /*URL*/
                 urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=CT6PLYXzJFrL%2B3YMNNnYsm0oK6giwUb%2Fh7vXt6UO0mQ1OGAfiaL1gn6U%2FK4DXNWnP1hlA3OW2AYa0Bevwhr9%2Fw%3D%3D"); /*Service Key*/
@@ -45,7 +45,6 @@ public class MedicineService {
                 urlBuilder.append("&" + URLEncoder.encode("depositMethodQesitm", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*이 약은 어떻게 보관해야 합니까?*/
 //        urlBuilder.append("&" + URLEncoder.encode("openDe","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*공개일자*/
 //        urlBuilder.append("&" + URLEncoder.encode("updateDe","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*수정일자*/
-                urlBuilder.append("&" + URLEncoder.encode("itemImage", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8"));
                 urlBuilder.append("&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default:xml*/
 
                 URL url = new URL(urlBuilder.toString());
@@ -91,13 +90,12 @@ public class MedicineService {
                             .itemCode(item.computeIfAbsent("itemSeq",v -> v).toString())
                             //.itemCode(item.get("itemSeq").toString().describeConstable().orElse("null"))
                             .company(item.computeIfAbsent("entpName",v -> v).toString())
-                            .image(item.computeIfAbsent("itemImage", v ->"이미지가 없습니다.").toString())
                             //.company(item.get("entpName").toString().describeConstable().orElse("null"))
                             .effect(item.computeIfAbsent("efcyQesitm",v -> v).toString())
                             //.effect(item.get("efcyQesitm").toString().describeConstable().orElse("null"))
                             .takeMethod(item.computeIfAbsent("useMethodQesitm",v -> v).toString())
                             //.takeMethod(item.get("useMethodQesitm").toString().describeConstable().orElse("null"))
-                            .precaution(item.computeIfAbsent("atpnWarnQesitm",v -> "관련 정보 없음 .!").toString())
+                            .precaution(item.computeIfAbsent("atpnWarnQesitm",v -> v).toString())
                             //.precaution(item.get("atpnWarnQesitm").toString().describeConstable().orElse("null"))
                             .caution(item.computeIfAbsent("atpnQesitm",v -> v).toString())
                             //.caution(item.get("atpnQesitm").toString().describeConstable().orElse("null"))
@@ -147,7 +145,6 @@ public class MedicineService {
                 urlBuilder.append("&" + URLEncoder.encode("depositMethodQesitm", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*이 약은 어떻게 보관해야 합니까?*/
 //        urlBuilder.append("&" + URLEncoder.encode("openDe","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*공개일자*/
 //        urlBuilder.append("&" + URLEncoder.encode("updateDe","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*수정일자*/
-                urlBuilder.append("&" + URLEncoder.encode("itemImage", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8"));
                 urlBuilder.append("&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*응답데이터 형식(xml/json) Default:xml*/
 
                 URL url = new URL(urlBuilder.toString());
@@ -194,12 +191,11 @@ public class MedicineService {
                             //.itemCode(item.get("itemSeq").toString().describeConstable().orElse("null"))
                             .company(item.computeIfAbsent("entpName",v -> v).toString())
                             //.company(item.get("entpName").toString().describeConstable().orElse("null"))
-                            .image(item.computeIfAbsent("itemImage", v ->"이미지가 없습니다.").toString())
                             .effect(item.computeIfAbsent("efcyQesitm",v -> v).toString())
                             //.effect(item.get("efcyQesitm").toString().describeConstable().orElse("null"))
                             .takeMethod(item.computeIfAbsent("useMethodQesitm",v -> v).toString())
                             //.takeMethod(item.get("useMethodQesitm").toString().describeConstable().orElse("null"))
-                            .precaution(item.computeIfAbsent("atpnWarnQesitm", v -> "관련 정보 없음 .!").toString())
+                            .precaution(item.computeIfAbsent("atpnWarnQesitm",v -> v).toString())
                             //.precaution(item.get("atpnWarnQesitm").toString().describeConstable().orElse("null"))
                             .caution(item.computeIfAbsent("atpnQesitm",v -> v).toString())
                             //.caution(item.get("atpnQesitm").toString().describeConstable().orElse("null"))
@@ -226,9 +222,5 @@ public class MedicineService {
         }
         return medicineDTOS;
     }
-
-//    public List<MedicineDTO> getSearchedMedicineByName(String name) throws IOException{
-//
-//    }
 
 }
