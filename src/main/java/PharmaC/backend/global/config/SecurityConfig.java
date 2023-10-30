@@ -45,13 +45,9 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(
                 Arrays.asList(
                         "http://localhost:3000",
-                        "https://api.prefolio.net",
-                        "https://prefolio.net",
-                        "https://pre-folio.com",
                         "http://localhost:8080",
-                        "https://prefolio-client.vercel.app",
-                        "http://43.200.11.160:3000",
-                        "https://s3.ap-northeast-2.amazonaws.com/prefolio.net"
+                        "https://hi-pharmac.com",
+                        "https://www.hi-pharmac.com"
                 )
         );
         configuration.setAllowedHeaders(Arrays.asList("*"));
