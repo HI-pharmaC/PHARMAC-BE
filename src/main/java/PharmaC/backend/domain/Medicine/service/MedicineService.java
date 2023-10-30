@@ -9,11 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -151,7 +151,7 @@ public class MedicineService {
     // 약품 전체 조회
     @Transactional(readOnly = true)
     public Page<Medicine> getAllMedicines(Pageable pageable) {
-        Page<Medicine> medicines = medicineRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        Page<Medicine> medicines = medicineRepository.findAll(pageable);
 
         if (medicines.isEmpty()) {
             throw MedicineNotFound.EXCEPTION; // 예외 발생
@@ -174,7 +174,7 @@ public class MedicineService {
     // 의약품 검색
     @Transactional(readOnly = true)
     public Page<Medicine> getSearchedMedicines(String search, Pageable pageable) {
-        Page<Medicine> medicines = medicineRepository.findBySearching(search, (org.springframework.data.domain.Pageable) pageable);
+        Page<Medicine> medicines = medicineRepository.findBySearching(search, pageable);
 
         if (medicines != null) {
             return medicines;
