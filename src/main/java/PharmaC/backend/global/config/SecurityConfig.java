@@ -80,7 +80,6 @@ public class SecurityConfig {
     // url 수정
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("시큐리티컨피그");
         http
                 .csrf(AbstractHttpConfigurer::disable)
 
@@ -90,10 +89,11 @@ public class SecurityConfig {
                         .requestMatchers("user/login/**").permitAll()
                         .requestMatchers("user/join/**").permitAll()
                         .requestMatchers("user/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers(SwaggerPatterns).permitAll()
-                        .anyRequest().authenticated()
-                        .and()
-                        .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class))
+                        .anyRequest().authenticated())
+                        //.and()
+                        //.addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class))
 
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/"));
