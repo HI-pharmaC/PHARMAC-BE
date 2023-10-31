@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Medicine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -37,10 +37,12 @@ public class Medicine {
     @Size(max = 50)
     private String company;
 
-    @Nullable
-    private String image;
+//    @Nullable
+//    @Column(length=10000)
+//    private byte[] image;
 
     @NotNull
+    @Column
     private String effect;
 
     @Nullable
@@ -48,12 +50,15 @@ public class Medicine {
     private String takeMethod;
 
     @NotNull
+    @Column
     private String precaution;
 
     @NotNull
+    @Column
     private String caution;
 
     @NotNull
+    @Column
     private String interaction;
 
     @NotNull
@@ -61,15 +66,16 @@ public class Medicine {
     private String sideEffect;
 
     @NotNull
+    @Column
     private String storage;
 
     @Builder
-    private Medicine(Long id, String name, String itemCode, String company, String image, String effect, String takeMethod, String precaution, String caution, String interaction, String sideEffect, String storage) {
+    private Medicine(Long id, String name, String itemCode, String company, String effect, String takeMethod, String precaution, String caution, String interaction, String sideEffect, String storage) {
         this.id = id;
         this.name = name;
         this.itemCode = itemCode;
         this.company = company;
-        this.image = image;
+        //this.image = image;
         this.effect = effect;
         this.takeMethod = takeMethod;
         this.precaution = precaution;
@@ -85,7 +91,7 @@ public class Medicine {
                 .name(medicineDTO.getName())
                 .itemCode(medicineDTO.getItemCode())
                 .company(medicineDTO.getCompany())
-                .image(medicineDTO.getImage())
+                //.image(medicineDTO.getImage())
                 .effect(medicineDTO.getEffect())
                 .takeMethod(medicineDTO.getTakeMethod())
                 .precaution(medicineDTO.getPrecaution())
