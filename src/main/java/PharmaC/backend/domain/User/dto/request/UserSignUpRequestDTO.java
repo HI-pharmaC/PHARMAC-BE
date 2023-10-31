@@ -15,10 +15,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class UserSignUpRequestDto {
+public class UserSignUpRequestDTO {
     @NotNull
     @Size(max = 30)
-    @Column(unique = true)
+    @Column(unique = true,name = "site_id")
     private String siteId;
 
     @NotNull
