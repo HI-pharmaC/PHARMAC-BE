@@ -1,4 +1,4 @@
-package PharmaC.backend.global.jwt.dto;
+package PharmaC.backend.domain.User.dto.response;
 
 import lombok.*;
 
@@ -6,10 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDto {
+public class TokenDTO {
 
-    private String grantType;
     private String accessToken;
     private String refreshToken;
-    private Long accessTokenExpiresIn;
 }

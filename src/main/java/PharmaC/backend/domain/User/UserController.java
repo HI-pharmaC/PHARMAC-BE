@@ -1,21 +1,20 @@
 package PharmaC.backend.domain.User;
-import PharmaC.backend.domain.User.dto.request.UserSignInRequestDto;
-import PharmaC.backend.domain.User.dto.request.UserSignUpRequestDto;
+import PharmaC.backend.domain.User.dto.UserDTO;
+import PharmaC.backend.domain.User.dto.request.UserInfoRequestDTO;
+import PharmaC.backend.domain.User.dto.request.UserPasswordDTO;
+import PharmaC.backend.domain.User.dto.request.UserSignInRequestDTO;
+import PharmaC.backend.domain.User.dto.request.UserSignUpRequestDTO;
+import PharmaC.backend.domain.User.dto.response.UserIdDTO;
 import PharmaC.backend.domain.User.service.UserService;
-import PharmaC.backend.global.jwt.dto.TokenDto;
+import PharmaC.backend.domain.User.dto.response.TokenDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import PharmaC.backend.global.common.dto.AwsS3Url;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Slf4j
@@ -28,21 +27,56 @@ public class UserController {
 
     private final UserService userService;
 
-
+    @Operation(summary = "회원가입하기")
     @PostMapping("/join")
-    public Long join(@RequestBody UserSignUpRequestDto requestDto){
+    public UserDTO join(
+            @RequestBody @Valid UserSignUpRequestDTO requestDto){
         return userService.join(requestDto);
     }
 
+    @Operation(summary = "로그인하기")
     @PostMapping("/login")
-    public TokenDto login(@RequestBody @Valid UserSignInRequestDto requestDto){
+    public TokenDTO login(@RequestBody @Valid UserSignInRequestDTO requestDto){
         return userService.login(requestDto);
     }
 
-    @PostMapping("siteId")
-    public boolean checkSiteId(@RequestBody String siteId){
-        return userService.checkSiteId(siteId);
+    @Operation(summary = "아이디 중복체크")
+    @GetMapping ("/siteId")
+    public UserIdDTO checkSiteId(
+            @RequestParam("siteId") String id
+    ){
+        return userService.checkSiteId(id);
     }
+
+    @Operation(summary = "사용자 프로필 조회")
+    @GetMapping("/{siteId}")
+    public UserDTO getInfo(
+            @PathVariable("siteId") String id){
+        return userService.getInfo(id);
+    }
+
+    @Operation(summary = "사용자 프로필 수정")
+    @PatchMapping("/{siteId}")
+    public UserDTO updateInfo(
+            @PathVariable("siteId") String id,
+            @RequestBody UserInfoRequestDTO requestDto){
+        return userService.updateInfo(requestDto,id);
+    }
+
+    @Operation(summary = "사용자 비밀번호 재설정")
+    @PatchMapping("/{siteId}/password")
+    public UserDTO updatePassword(
+            @PathVariable("siteId") String id,
+            @RequestBody UserPasswordDTO passwordDTO
+            ){
+        return userService.updatePassword(passwordDTO,id);
+    }
+
+//    @Operation(summary = "토큰 재발급")
+//    @PutMapping("/newAccess")
+//    public TokenDTO issueAccessToken(HttpServletRequest request) {
+//        return userService.issueAccessToken(request);
+//    }
 
     @Operation(summary = "회원 이미지 url 생성하기")
     @GetMapping("/image")
