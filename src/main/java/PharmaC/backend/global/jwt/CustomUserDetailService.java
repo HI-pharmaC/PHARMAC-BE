@@ -16,6 +16,7 @@ public class CustomUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String siteId) throws UsernameNotFoundException {
+        log.info("siteId", siteId);
         return userRepository.findBySiteId(siteId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
     }

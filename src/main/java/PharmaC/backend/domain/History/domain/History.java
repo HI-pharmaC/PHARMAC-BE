@@ -9,13 +9,13 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import org.hibernate.sql.Update;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,18 +41,18 @@ public class History {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date endDate;
+    private LocalDate endDate;
 
     @NotNull
     private Boolean nowState;
 
     // 생성자
     @Builder
-    private History(Long id, User user, String name, String symptom, Date startDate, Date endDate, Boolean nowState) {
+    private History(Long id, User user, String name, String symptom, LocalDate startDate, LocalDate endDate, Boolean nowState) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -91,7 +91,7 @@ public class History {
         if (historyInfo.getNowState() != null) {
             this.nowState = historyInfo.getNowState();
             if (nowState == true) {
-                endDate = new Date();
+                endDate = LocalDate.now();
             }
         }
     }

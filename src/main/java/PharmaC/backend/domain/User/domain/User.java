@@ -1,6 +1,6 @@
 package PharmaC.backend.domain.User.domain;
 
-import PharmaC.backend.global.entity.baseTimeEntity;
+import PharmaC.backend.domain.User.dto.request.UserInfoRequestDTO;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +41,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Nullable
     private String image;
 
@@ -52,7 +55,7 @@ public class User implements UserDetails {
 
     // 생성자
     @Builder
-    private User(Long id, String siteId, String password, String name, Gender gender, String image, String disease) {
+    private User(Long id, String siteId, String password, String name, Gender gender,String image, String disease) {
         this.id = id;
         this.siteId = siteId;
         this.password = password;
@@ -60,6 +63,32 @@ public class User implements UserDetails {
         this.gender = gender;
         this.image = image;
         this.disease = disease;
+    }
+
+    public void addUserAuthority(){
+        this.role = Role.ROLE_USER;
+    }
+    public void update(UserInfoRequestDTO requestDto){
+        if (requestDto.getSiteId() != null){
+            this.siteId = requestDto.getSiteId();
+        }
+        if(requestDto.getGender() != null){
+            this.gender = requestDto.getGender();
+        }
+        if(requestDto.getDisease() != null){
+            this.disease = requestDto.getDisease();
+        }
+        if(requestDto.getImage() != null){
+            this.image = requestDto.getImage();
+        }
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String password) {
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
+        return passwordEncoder.matches(checkPassword, getPassword());
     }
 
     public void passwordEncode(PasswordEncoder passwordEncoder) {

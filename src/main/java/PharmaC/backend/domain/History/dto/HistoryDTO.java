@@ -1,6 +1,7 @@
 package PharmaC.backend.domain.History.dto;
 
 import PharmaC.backend.domain.History.domain.History;
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +12,12 @@ public class HistoryDTO {
     private Long id;
     private String name;
     private String symptom;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Boolean nowState;
 
     @Builder
-    private HistoryDTO(Long id, String name, String symptom, Date startDate, Date endDate, Boolean nowState) {
+    private HistoryDTO(Long id, String name, String symptom, LocalDate startDate, LocalDate endDate, Boolean nowState) {
         this.id = id;
         this.name = name;
         this.symptom = symptom;

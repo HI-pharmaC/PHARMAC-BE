@@ -1,0 +1,5 @@
+package PharmaC.backend.domain.User.domain;
+
+public enum Role {
+    ROLE_USER,ROLE_ADMIN
+}
