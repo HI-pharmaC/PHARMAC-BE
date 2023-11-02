@@ -2,6 +2,7 @@ package PharmaC.backend.domain.Medicine.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.w3c.dom.Text;
 
 @Builder
 @Getter

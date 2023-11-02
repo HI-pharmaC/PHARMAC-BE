@@ -28,7 +28,7 @@ public class MedicineController {
     private final MedicineService medicineService;
 
     @Operation(summary = "약품 db로 가져오기")
-    @GetMapping("/get-all") // pharma-c/medicine/get-all
+    @GetMapping("/all") // pharma-c/medicine/all
     public void saveAllMedicines() throws IOException {
        medicineService.saveAllMedicine();
     }

@@ -73,8 +73,9 @@ public class SecurityConfig {
                 .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("user/login").permitAll()
-                        .requestMatchers("user/join").permitAll()
+                        .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/user/join").permitAll()
+                        .requestMatchers("/medicine/all").permitAll()
                         .requestMatchers(SwaggerPatterns).permitAll()
                         .anyRequest().authenticated())
 
