@@ -2,6 +2,7 @@ package PharmaC.backend.domain.Medicine.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.w3c.dom.Text;
 
 @Builder
 @Getter
@@ -22,5 +23,12 @@ public class MedicineDTO {
     private String interaction; // 상호작용 intrcQesitm(주의해야 하는 약)
     private String sideEffect; // 부작용 seQesitm
     private String storage; // 보관법 depositMethodQesitm
+
+    public static MedicineDTO of(Long id, String name, String itemCode, String company, String effect, String takeMethod, String precaution,
+                                 String caution, String interaction, String sideEffect, String storage) {
+        return new MedicineDTO(
+                id, name, itemCode, company, effect, takeMethod, precaution, caution, interaction, sideEffect, storage
+        );
+    }
 
 }
