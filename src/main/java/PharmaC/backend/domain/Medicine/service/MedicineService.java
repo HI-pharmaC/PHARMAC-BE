@@ -4,7 +4,6 @@ import PharmaC.backend.domain.Medicine.domain.Medicine;
 import PharmaC.backend.domain.Medicine.dto.MedicineDTO;
 import PharmaC.backend.domain.Medicine.dto.MedicineDataDTO;
 import PharmaC.backend.domain.Medicine.dto.PageInfoDTO;
-import PharmaC.backend.domain.Medicine.dto.response.ResponseApiDTO;
 import PharmaC.backend.domain.Medicine.exception.MedicineNotFound;
 import PharmaC.backend.domain.Medicine.repository.MedicineRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
