@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
-    Page<Medicine> findByItemCode(String code, Pageable pageable);
+    Medicine findByItemCode(String code);
 
     @Query("SELECT m FROM Medicine m WHERE m.name LIKE %:keyword% OR m.effect LIKE %:keyword%")
     Page<Medicine> findBySearching(@Param("keyword") String keyword, Pageable pageable);

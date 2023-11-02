@@ -12,17 +12,17 @@ import java.util.List;
 @Getter
 @Setter
 public class MedicineDataDTO {
-    private Page<Medicine> content;
+    private Page<Medicine> data;
     private PageInfoDTO pageInfo;
 
-    public MedicineDataDTO(Page<Medicine> content, PageInfoDTO pageInfo) {
-        this.content = content;
+    public MedicineDataDTO(Page<Medicine> data, PageInfoDTO pageInfo) {
+        this.data = data;
         this.pageInfo = pageInfo;
     }
 
-    public static MedicineDataDTO of(Page<Medicine> content, PageInfoDTO pageInfo) {
+    public static MedicineDataDTO of(Page<Medicine> data, PageInfoDTO pageInfo) {
         return new MedicineDataDTO(
-                content, pageInfo
+                data, pageInfo
         );
     }
 }

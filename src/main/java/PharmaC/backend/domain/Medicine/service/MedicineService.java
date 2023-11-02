@@ -155,9 +155,6 @@ public class MedicineService {
     @Transactional(readOnly = true)
     public MedicineDataDTO getAllMedicines(Pageable pageable) {
         Page<Medicine> medicines = medicineRepository.findAll(pageable);
-        // 현재 페이지의 데이터를 얻으려면
-        // List<Medicine> currentPageData = medicines.getContent();
-        // medicines.getTotalPages()
 
         if (medicines.isEmpty()) {
             throw MedicineNotFound.EXCEPTION; // 예외 발생
@@ -172,27 +169,45 @@ public class MedicineService {
         return MedicineDataDTO.of(medicines, pageInfo);
     }
 
-    // 약품 1개(약품코드로) 조회
-//    public Medicine findByCode(String code) {
-//        Medicine medicine = medicineRepository.findByItemCode(code);
-//
-//        if (medicine == null) {
-//            throw MedicineNotFound.EXCEPTION;
-//        } else {
-//            return medicine;
-//        }
-//    }
+    // 약품 1개(약품코드로) 조회하기
+    @Transactional(readOnly = true)
+    public MedicineDTO getMedicineByCode(String code) {
+        Medicine medicine = medicineRepository.findByItemCode(code);
+
+        if(medicine == null) {
+            throw MedicineNotFound.EXCEPTION;
+        }
+
+        return MedicineDTO.of(medicine.getId(),
+                medicine.getName(),
+                medicine.getItemCode(),
+                medicine.getCompany(),
+                medicine.getEffect(),
+                medicine.getTakeMethod(),
+                medicine.getPrecaution(),
+                medicine.getCaution(),
+                medicine.getInteraction(),
+                medicine.getSideEffect(),
+                medicine.getStorage()
+        );
+    }
 
     // 의약품 검색
     @Transactional(readOnly = true)
-    public Page<Medicine> getSearchedMedicines(String search, Pageable pageable) {
+    public MedicineDataDTO getMedicineBySearch(String search, Pageable pageable) {
         Page<Medicine> medicines = medicineRepository.findBySearching(search, pageable);
 
-        if (medicines != null) {
-            return medicines;
-        } else {
-            throw MedicineNotFound.EXCEPTION;
+        if (medicines.isEmpty()) {
+            throw MedicineNotFound.EXCEPTION; // 예외 발생
         }
+
+        PageInfoDTO pageInfo = PageInfoDTO.of(pageable.getPageNumber(),
+                pageable.getPageSize(),
+                medicines.getTotalPages(),
+                (int) medicines.getTotalElements()
+        );
+
+        return MedicineDataDTO.of(medicines, pageInfo);
     }
 
 }

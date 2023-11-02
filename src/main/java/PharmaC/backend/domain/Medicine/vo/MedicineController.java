@@ -48,59 +48,33 @@ public class MedicineController {
             return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
                     .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
         }
-
     }
 
-//    @Operation(summary = "의약품 전체조회")
-//    @GetMapping()
-//    public ResponseEntity<ResponseApiDTO> getAllMedicines(Pageable pageable) {
-//        try {
-//            Page<Medicine> medicines = medicineService.getAllMedicines(pageable);
-//
-//            List<Medicine> content = medicines.getContent();
-//            PageInfoDTO pageInfo = new PageInfoDTO(
-//                    medicines.getNumber() + 1,
-//                    medicines.getSize(),
-//                    medicines.getTotalPages(),
-//                    (int) medicines.getTotalElements()
-//            );
-//
-//            ResponseApiDTO response = new ResponseApiDTO(200, true, "의약품 불러오기에 성공하였습니다.", new MedicineDataDTO(content, pageInfo));
-//
-//            return ResponseEntity.ok(response);
-//        } catch (MedicineNotFound e) {
-//            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
-//            ResponseApiDTO response = new ResponseApiDTO(
-//                    errorCode.getStatus().value(),
-//                    false,
-//                    errorCode.getReason(),
-//                    null
-//            );
-//
-//            return ResponseEntity.status(errorCode.getStatus()).body(response);
-//        }
-//    }
-
     @Operation(summary = "의약품 코드로 조회(1개)")
-    @GetMapping("items/{code}")
-    public ResponseEntity<ResponseOneApiDTO> getMedicineByCode(@PathVariable String code) {
-
+    @GetMapping("/items/{code}")
+    public ResponseEntity<?> getMedicineByCode(@PathVariable String code) {
         try {
-            Medicine medicine = medicineService.findByCode(code);
+            log.info("의약품 코드로 1개 조회하기");
+            MedicineDTO result = medicineService.getMedicineByCode(code);
 
-            ResponseOneApiDTO response = new ResponseOneApiDTO(200, true, "의약품 코드로 1개 조회 성공", medicine);
+            return ResponseEntity.ok(result);
+        } catch (MedicineNotFound e) {
+            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
+                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
+        }
+    }
 
-            return ResponseEntity.ok(response);
-        } catch(MedicineNotFound e) {
-            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
-            ResponseOneApiDTO response = new ResponseOneApiDTO(
-                    errorCode.getStatus().value(),
-                    false,
-                    errorCode.getReason(),
-                    null
-            );
+    @Operation(summary = "의약품 검색")
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<?> getMedicineBySearch(@PathVariable String keyword, Pageable pageable) {
+        try{
+            log.info("검색한 의약품 조회하기");
+            MedicineDataDTO result = medicineService.getMedicineBySearch(keyword, pageable);
 
-            return ResponseEntity.status(errorCode.getStatus()).body(response);
+            return ResponseEntity.ok(result);
+        } catch (MedicineNotFound e) {
+            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
+                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
         }
     }
 
