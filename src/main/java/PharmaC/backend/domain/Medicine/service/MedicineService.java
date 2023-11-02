@@ -2,6 +2,9 @@ package PharmaC.backend.domain.Medicine.service;
 
 import PharmaC.backend.domain.Medicine.domain.Medicine;
 import PharmaC.backend.domain.Medicine.dto.MedicineDTO;
+import PharmaC.backend.domain.Medicine.dto.MedicineDataDTO;
+import PharmaC.backend.domain.Medicine.dto.PageInfoDTO;
+import PharmaC.backend.domain.Medicine.dto.response.ResponseApiDTO;
 import PharmaC.backend.domain.Medicine.exception.MedicineNotFound;
 import PharmaC.backend.domain.Medicine.repository.MedicineRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -150,26 +153,35 @@ public class MedicineService {
 
     // 약품 전체 조회
     @Transactional(readOnly = true)
-    public Page<Medicine> getAllMedicines(Pageable pageable) {
+    public MedicineDataDTO getAllMedicines(Pageable pageable) {
         Page<Medicine> medicines = medicineRepository.findAll(pageable);
+        // 현재 페이지의 데이터를 얻으려면
+        // List<Medicine> currentPageData = medicines.getContent();
+        // medicines.getTotalPages()
 
         if (medicines.isEmpty()) {
             throw MedicineNotFound.EXCEPTION; // 예외 발생
         }
 
-        return medicines;
+        PageInfoDTO pageInfo = PageInfoDTO.of(pageable.getPageNumber(),
+                pageable.getPageSize(),
+                medicines.getTotalPages(),
+                (int) medicines.getTotalElements()
+        );
+
+        return MedicineDataDTO.of(medicines, pageInfo);
     }
 
     // 약품 1개(약품코드로) 조회
-    public Medicine findByCode(String code) {
-        Medicine medicine = medicineRepository.findByItemCode(code);
-
-        if (medicine == null) {
-            throw MedicineNotFound.EXCEPTION;
-        } else {
-            return medicine;
-        }
-    }
+//    public Medicine findByCode(String code) {
+//        Medicine medicine = medicineRepository.findByItemCode(code);
+//
+//        if (medicine == null) {
+//            throw MedicineNotFound.EXCEPTION;
+//        } else {
+//            return medicine;
+//        }
+//    }
 
     // 의약품 검색
     @Transactional(readOnly = true)

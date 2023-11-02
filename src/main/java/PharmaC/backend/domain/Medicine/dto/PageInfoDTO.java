@@ -19,4 +19,13 @@ public class PageInfoDTO {
         this.totalPages = totalPages;
         this.totalElements = totalElements;
     }
+
+    public static PageInfoDTO of (int pageNum, int limit, int totalPages, int totalElements) {
+        return new PageInfoDTO(
+                pageNum = pageNum,
+                limit = limit,
+                totalPages = totalPages,
+                totalElements = totalElements
+        );
+    }
 }

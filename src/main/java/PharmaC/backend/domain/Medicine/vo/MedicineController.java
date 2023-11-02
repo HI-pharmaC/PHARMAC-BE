@@ -10,7 +10,9 @@ import PharmaC.backend.domain.Medicine.exception.MedicineErrorCode;
 import PharmaC.backend.domain.Medicine.exception.MedicineNotFound;
 import PharmaC.backend.domain.Medicine.service.MedicineService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/medicine")
@@ -34,34 +37,49 @@ public class MedicineController {
     }
 
     @Operation(summary = "의약품 전체조회")
-    @GetMapping()
-    public ResponseEntity<ResponseApiDTO> getAllMedicines(Pageable pageable) {
-        try {
-            Page<Medicine> medicines = medicineService.getAllMedicines(pageable);
+    @GetMapping("/items")
+    public ResponseEntity<?> getAllMedicines(Pageable pageable) {
+        try{
+            log.info("의약품 전체 조회하기");
+            MedicineDataDTO result = medicineService.getAllMedicines(pageable);
 
-            List<Medicine> content = medicines.getContent();
-            PageInfoDTO pageInfo = new PageInfoDTO(
-                    medicines.getNumber() + 1,
-                    medicines.getSize(),
-                    medicines.getTotalPages(),
-                    (int) medicines.getTotalElements()
-            );
-
-            ResponseApiDTO response = new ResponseApiDTO(200, true, "의약품 불러오기에 성공하였습니다.", new MedicineDataDTO(content, pageInfo));
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(result);
         } catch (MedicineNotFound e) {
-            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
-            ResponseApiDTO response = new ResponseApiDTO(
-                    errorCode.getStatus().value(),
-                    false,
-                    errorCode.getReason(),
-                    null
-            );
-
-            return ResponseEntity.status(errorCode.getStatus()).body(response);
+            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
+                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
         }
+
     }
+
+//    @Operation(summary = "의약품 전체조회")
+//    @GetMapping()
+//    public ResponseEntity<ResponseApiDTO> getAllMedicines(Pageable pageable) {
+//        try {
+//            Page<Medicine> medicines = medicineService.getAllMedicines(pageable);
+//
+//            List<Medicine> content = medicines.getContent();
+//            PageInfoDTO pageInfo = new PageInfoDTO(
+//                    medicines.getNumber() + 1,
+//                    medicines.getSize(),
+//                    medicines.getTotalPages(),
+//                    (int) medicines.getTotalElements()
+//            );
+//
+//            ResponseApiDTO response = new ResponseApiDTO(200, true, "의약품 불러오기에 성공하였습니다.", new MedicineDataDTO(content, pageInfo));
+//
+//            return ResponseEntity.ok(response);
+//        } catch (MedicineNotFound e) {
+//            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
+//            ResponseApiDTO response = new ResponseApiDTO(
+//                    errorCode.getStatus().value(),
+//                    false,
+//                    errorCode.getReason(),
+//                    null
+//            );
+//
+//            return ResponseEntity.status(errorCode.getStatus()).body(response);
+//        }
+//    }
 
     @Operation(summary = "의약품 코드로 조회(1개)")
     @GetMapping("items/{code}")
@@ -86,37 +104,37 @@ public class MedicineController {
         }
     }
 
-    @Operation(summary = "의약품 검색")
-    @GetMapping("/{search}")
-    public ResponseEntity<ResponseApiDTO> getSearchedMedicines(
-            @PathVariable String search,
-            Pageable pageable) {
-        try {
-            Page<Medicine> medicines = medicineService.getSearchedMedicines(search, pageable);
-
-            PageInfoDTO pageInfo = new PageInfoDTO(
-                    medicines.getNumber() + 1,
-                    medicines.getSize(),
-                    medicines.getTotalPages(),
-                    (int) medicines.getTotalElements()
-            );
-
-            MedicineDataDTO data = new MedicineDataDTO(medicines.getContent(), pageInfo);
-
-            ResponseApiDTO response = new ResponseApiDTO(200, true, "의약품 불러오기에 성공하였습니다.", data);
-
-            return ResponseEntity.ok(response);
-        } catch (MedicineNotFound e) {
-            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
-            ResponseApiDTO response = new ResponseApiDTO(
-                    errorCode.getStatus().value(),
-                    false,
-                    errorCode.getReason(),
-                    null
-            );
-
-            return ResponseEntity.status(errorCode.getStatus()).body(response);
-        }
-    }
+//    @Operation(summary = "의약품 검색")
+//    @GetMapping("/{search}")
+//    public ResponseEntity<ResponseApiDTO> getSearchedMedicines(
+//            @PathVariable String search,
+//            Pageable pageable) {
+//        try {
+//            Page<Medicine> medicines = medicineService.getSearchedMedicines(search, pageable);
+//
+//            PageInfoDTO pageInfo = new PageInfoDTO(
+//                    medicines.getNumber() + 1,
+//                    medicines.getSize(),
+//                    medicines.getTotalPages(),
+//                    (int) medicines.getTotalElements()
+//            );
+//
+//            MedicineDataDTO data = new MedicineDataDTO(medicines.getContent(), pageInfo);
+//
+//            ResponseApiDTO response = new ResponseApiDTO(200, true, "의약품 불러오기에 성공하였습니다.", data);
+//
+//            return ResponseEntity.ok(response);
+//        } catch (MedicineNotFound e) {
+//            MedicineErrorCode errorCode = (MedicineErrorCode) e.getErrorCode();
+//            ResponseApiDTO response = new ResponseApiDTO(
+//                    errorCode.getStatus().value(),
+//                    false,
+//                    errorCode.getReason(),
+//                    null
+//            );
+//
+//            return ResponseEntity.status(errorCode.getStatus()).body(response);
+//        }
+//    }
 
 }
