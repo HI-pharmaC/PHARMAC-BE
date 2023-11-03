@@ -40,11 +40,11 @@ public class MedicineService {
         for (MedicineDTO medicineDTO : medicineDTOs) {
             Medicine medicine = Medicine.of(medicineDTO);
             medicineRepository.save(medicine);
-            try {
-                TimeUnit.SECONDS.sleep(3);
-            } catch (InterruptedException e) {
-                System.out.println("dd");
-            }
+//            try {
+//                TimeUnit.SECONDS.sleep(3);
+//            } catch (InterruptedException e) {
+//                System.out.println("dd");
+//            }
         }
     }
 
@@ -53,12 +53,12 @@ public class MedicineService {
 
         List<MedicineDTO> medicineDTOS = new ArrayList<>();
 
-        for(int i=1; i<=40; i++) {
+        for(int i=1; i<=47; i++) {
             try {
                 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList"); /*URL*/
                 urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=CT6PLYXzJFrL%2B3YMNNnYsm0oK6giwUb%2Fh7vXt6UO0mQ1OGAfiaL1gn6U%2FK4DXNWnP1hlA3OW2AYa0Bevwhr9%2Fw%3D%3D"); /*Service Key*/
                 urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(i), "UTF-8")); /*페이지번호*/
-                urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*한 페이지 결과 수*/
+                urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*한 페이지 결과 수*/
                 urlBuilder.append("&" + URLEncoder.encode("entpName", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*업체명*/
                 urlBuilder.append("&" + URLEncoder.encode("itemName", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*제품명*/
                 urlBuilder.append("&" + URLEncoder.encode("itemSeq", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*품목기준코드*/
