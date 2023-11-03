@@ -26,7 +26,7 @@ public class Medicine {
     private Long id;
 
     @NotNull
-    @Size(max = 50)
+    //@Size(max = 50)
     private String name;
 
     @NotNull

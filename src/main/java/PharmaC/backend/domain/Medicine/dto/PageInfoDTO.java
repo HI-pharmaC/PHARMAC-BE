@@ -20,7 +20,7 @@ public class PageInfoDTO {
         this.totalElements = totalElements;
     }
 
-    public static PageInfoDTO of (int pageNum, int limit, int totalPages, int totalElements) {
+    public static PageInfoDTO of(int pageNum, int limit, int totalPages, int totalElements) {
         return new PageInfoDTO(
                 pageNum = pageNum,
                 limit = limit,
