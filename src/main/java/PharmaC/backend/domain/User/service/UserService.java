@@ -98,28 +98,28 @@ public class UserService {
 
     public UserIdDTO checkSiteId(String siteId){
         if(userRepository.existsBySiteId(siteId)){
-            throw new IllegalArgumentException("이미 가입된 아이디 입니다.");
+            return UserIdDTO.toEntity(siteId,true);
         }
-        return UserIdDTO.toEntity(siteId);
+        return UserIdDTO.toEntity(siteId,false);
     }
 
-    public UserDTO getInfo(String siteId){
+    public UserDTO getInfo(Long id){
         //User user = validateLoginStatus();
-        User user = userRepository.findBySiteId(siteId)
+        User user = userRepository.findById(id)
                         .orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
         return UserDTO.toEntity(user);
     }
 
-    public UserDTO updateInfo(UserInfoRequestDTO requestDto, String id){
+    public UserDTO updateInfo(UserInfoRequestDTO requestDto, Long id){
         //User user = validateLoginStatus();
-        User user = userRepository.findBySiteId(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
         user.update(requestDto);
         return UserDTO.toEntity(user);
     }
 
-    public UserDTO updatePassword(UserPasswordDTO passwordDTO, String id){
+    public UserDTO updatePassword(UserPasswordDTO passwordDTO, Long id){
         // User user = validateLoginStatus();
-        User user = userRepository.findBySiteId(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
         if (!user.matchPassword(passwordEncoder,passwordDTO.getBeforePassword())){
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
