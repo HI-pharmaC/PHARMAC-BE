@@ -7,15 +7,18 @@ import lombok.Getter;
 public class UserIdDTO {
 
     private String siteId;
+    private Boolean state;
 
     @Builder
-    private UserIdDTO(String siteId){
+    private UserIdDTO(String siteId,Boolean state){
         this.siteId = siteId;
+        this.state = state;
     }
 
-    public static UserIdDTO toEntity(String siteId){
+    public static UserIdDTO toEntity(String siteId,Boolean state){
         return UserIdDTO.builder()
                 .siteId(siteId)
+                .state(state)
                 .build();
     }
 }

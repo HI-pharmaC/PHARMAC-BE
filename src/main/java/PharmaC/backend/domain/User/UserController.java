@@ -49,24 +49,24 @@ public class UserController {
     }
 
     @Operation(summary = "사용자 프로필 조회")
-    @GetMapping("/{siteId}")
+    @GetMapping("/{id}")
     public UserDTO getInfo(
-            @PathVariable("siteId") String id){
+            @PathVariable("id") Long id){
         return userService.getInfo(id);
     }
 
     @Operation(summary = "사용자 프로필 수정")
-    @PatchMapping("/{siteId}")
+    @PatchMapping("/{id}")
     public UserDTO updateInfo(
-            @PathVariable("siteId") String id,
+            @PathVariable("id") Long id,
             @RequestBody UserInfoRequestDTO requestDto){
         return userService.updateInfo(requestDto,id);
     }
 
     @Operation(summary = "사용자 비밀번호 재설정")
-    @PatchMapping("/{siteId}/password")
+    @PatchMapping("/{id}/password")
     public UserDTO updatePassword(
-            @PathVariable("siteId") String id,
+            @PathVariable("id") Long id,
             @RequestBody UserPasswordDTO passwordDTO
             ){
         return userService.updatePassword(passwordDTO,id);
