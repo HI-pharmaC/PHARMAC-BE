@@ -1,11 +1,9 @@
 package PharmaC.backend.domain.User.service;
 import PharmaC.backend.domain.User.domain.User;
 import PharmaC.backend.domain.User.dto.UserDTO;
-import PharmaC.backend.domain.User.dto.request.UserInfoRequestDTO;
-import PharmaC.backend.domain.User.dto.request.UserPasswordDTO;
-import PharmaC.backend.domain.User.dto.request.UserSignInRequestDTO;
-import PharmaC.backend.domain.User.dto.request.UserSignUpRequestDTO;
+import PharmaC.backend.domain.User.dto.request.*;
 import PharmaC.backend.domain.User.dto.response.UserIdDTO;
+import PharmaC.backend.domain.User.dto.response.UserPwDTO;
 import PharmaC.backend.domain.User.repository.UserRepository;
 import PharmaC.backend.global.jwt.TokenProvider;
 import PharmaC.backend.domain.User.dto.response.TokenDTO;
@@ -120,11 +118,20 @@ public class UserService {
     public UserDTO updatePassword(UserPasswordDTO passwordDTO, Long id){
         // User user = validateLoginStatus();
         User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다."));
-        if (!user.matchPassword(passwordEncoder,passwordDTO.getBeforePassword())){
-            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-        }
+//        if (!user.matchPassword(passwordEncoder,passwordDTO.getBeforePassword())){
+//            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+//        }
         user.updatePassword(passwordEncoder,passwordDTO.getAfterPassword());
         return UserDTO.toEntity(user);
+    }
+
+    public UserPwDTO checkPw(UserCheckPwDTO userCheckPwDTO, Long id){
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 회원이 없습니다"));
+        if (!user.matchPassword(passwordEncoder,userCheckPwDTO.getBeforePassword())){
+            return UserPwDTO.toEntity(userCheckPwDTO.getBeforePassword(),false); // 틀렸을 때
+        }
+        return UserPwDTO.toEntity(userCheckPwDTO.getBeforePassword(),true); // 맞았을 때
+
     }
 
 

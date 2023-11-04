@@ -1,10 +1,8 @@
 package PharmaC.backend.domain.User;
 import PharmaC.backend.domain.User.dto.UserDTO;
-import PharmaC.backend.domain.User.dto.request.UserInfoRequestDTO;
-import PharmaC.backend.domain.User.dto.request.UserPasswordDTO;
-import PharmaC.backend.domain.User.dto.request.UserSignInRequestDTO;
-import PharmaC.backend.domain.User.dto.request.UserSignUpRequestDTO;
+import PharmaC.backend.domain.User.dto.request.*;
 import PharmaC.backend.domain.User.dto.response.UserIdDTO;
+import PharmaC.backend.domain.User.dto.response.UserPwDTO;
 import PharmaC.backend.domain.User.service.UserService;
 import PharmaC.backend.domain.User.dto.response.TokenDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,6 +68,15 @@ public class UserController {
             @RequestBody UserPasswordDTO passwordDTO
             ){
         return userService.updatePassword(passwordDTO,id);
+    }
+
+    @Operation(summary = "사용자 현재 비밀번호 확인")
+    @GetMapping("/{id}/password")
+    public UserPwDTO checkPassword(
+            @PathVariable("id") Long id,
+            @RequestBody UserCheckPwDTO checkPwDTO
+            ){
+        return userService.checkPw(checkPwDTO,id);
     }
 
 //    @Operation(summary = "토큰 재발급")
