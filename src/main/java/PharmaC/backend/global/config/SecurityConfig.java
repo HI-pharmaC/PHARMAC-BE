@@ -53,7 +53,8 @@ public class SecurityConfig {
                         "http://localhost:3000",
                         "http://localhost:8080",
                         "https://hi-pharmac.com",
-                        "https://www.hi-pharmac.com"
+                        "https://www.hi-pharmac.com",
+                        "http://www.hi-pharmac.com"
                 )
         );
         configuration.setAllowedHeaders(Arrays.asList("*"));
