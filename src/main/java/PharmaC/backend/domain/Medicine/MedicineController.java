@@ -5,6 +5,7 @@ import PharmaC.backend.domain.Medicine.dto.MedicineDataDTO;
 import PharmaC.backend.domain.Medicine.exception.MedicineErrorCode;
 import PharmaC.backend.domain.Medicine.exception.MedicineNotFound;
 import PharmaC.backend.domain.Medicine.service.MedicineService;
+import PharmaC.backend.global.common.CommonResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,43 +31,40 @@ public class MedicineController {
 
     @Operation(summary = "의약품 전체조회")
     @GetMapping("/items")
-    public ResponseEntity<?> getAllMedicines(Pageable pageable) {
-        try{
+    public CommonResponseDTO<MedicineDataDTO> getAllMedicines(Pageable pageable) {
+        try {
             log.info("의약품 전체 조회하기");
             MedicineDataDTO result = medicineService.getAllMedicines(pageable);
 
-            return ResponseEntity.ok(result);
+            return CommonResponseDTO.onSuccess(200, true, "의약품 전체 조회 성공", result);
         } catch (MedicineNotFound e) {
-            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
-                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
+            return CommonResponseDTO.onFailure(500, false, "의약품 전체 조회 실패");
         }
     }
 
     @Operation(summary = "의약품 코드로 조회(1개)")
     @GetMapping("/items/{code}")
-    public ResponseEntity<?> getMedicineByCode(@PathVariable String code) {
+    public CommonResponseDTO<MedicineDTO> getMedicineByCode(@PathVariable String code) {
         try {
             log.info("의약품 코드로 1개 조회하기");
             MedicineDTO result = medicineService.getMedicineByCode(code);
 
-            return ResponseEntity.ok(result);
+            return CommonResponseDTO.onSuccess(200, true, "의약품 코드로 조회 성공", result);
         } catch (MedicineNotFound e) {
-            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
-                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
+            return CommonResponseDTO.onFailure(500, false, "의약품 코드로 조회 실패");
         }
     }
 
     @Operation(summary = "의약품 검색")
     @GetMapping("/search/{keyword}")
-    public ResponseEntity<?> getMedicineBySearch(@PathVariable String keyword, Pageable pageable) {
+    public CommonResponseDTO<MedicineDataDTO> getMedicineBySearch(@PathVariable String keyword, Pageable pageable) {
         try{
             log.info("검색한 의약품 조회하기");
             MedicineDataDTO result = medicineService.getMedicineBySearch(keyword, pageable);
 
-            return ResponseEntity.ok(result);
+            return CommonResponseDTO.onSuccess(200, true, "의약품 검색 성공", result);
         } catch (MedicineNotFound e) {
-            return ResponseEntity.status(MedicineErrorCode.MEDICINE_NOT_FOUND.getStatus())
-                    .body(MedicineErrorCode.MEDICINE_NOT_FOUND.getReason());
+            return CommonResponseDTO.onFailure(500, false, "의약품 검색 실패");
         }
     }
 
