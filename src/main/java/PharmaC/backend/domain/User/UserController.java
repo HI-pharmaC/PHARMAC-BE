@@ -5,6 +5,7 @@ import PharmaC.backend.domain.User.dto.response.UserIdDTO;
 import PharmaC.backend.domain.User.dto.response.UserPwDTO;
 import PharmaC.backend.domain.User.service.UserService;
 import PharmaC.backend.domain.User.dto.response.TokenDTO;
+import PharmaC.backend.global.common.CommonResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,56 +28,91 @@ public class UserController {
 
     @Operation(summary = "회원가입하기")
     @PostMapping("/join")
-    public UserDTO join(
-            @RequestBody @Valid UserSignUpRequestDTO requestDto){
-        return userService.join(requestDto);
+    public CommonResponseDTO<UserDTO> join(
+            @RequestBody @Valid UserSignUpRequestDTO requestDto) {
+        return CommonResponseDTO.onSuccess(
+                201,
+                true,
+                "회원가입 성공",
+                userService.join(requestDto)
+        );
     }
 
     @Operation(summary = "로그인하기")
     @PostMapping("/login")
-    public TokenDTO login(@RequestBody @Valid UserSignInRequestDTO requestDto){
-        return userService.login(requestDto);
+    public CommonResponseDTO<TokenDTO> login(@RequestBody @Valid UserSignInRequestDTO requestDto){
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "로그인 성공",
+                userService.login(requestDto)
+        );
     }
 
     @Operation(summary = "아이디 중복체크")
     @GetMapping ("/siteId")
-    public UserIdDTO checkSiteId(
+    public CommonResponseDTO<UserIdDTO> checkSiteId(
             @RequestParam("siteId") String id
     ){
-        return userService.checkSiteId(id);
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "사용 가능한 아이디입니다.",
+                userService.checkSiteId(id)
+        );
     }
 
     @Operation(summary = "사용자 프로필 조회")
     @GetMapping("/{id}")
-    public UserDTO getInfo(
+    public CommonResponseDTO<UserDTO> getInfo(
             @PathVariable("id") Long id){
-        return userService.getInfo(id);
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "사용자 프로필 조회 성공",
+                userService.getInfo(id)
+        );
     }
 
     @Operation(summary = "사용자 프로필 수정")
     @PatchMapping("/{id}")
-    public UserDTO updateInfo(
+    public CommonResponseDTO<UserDTO> updateInfo(
             @PathVariable("id") Long id,
             @RequestBody UserInfoRequestDTO requestDto){
-        return userService.updateInfo(requestDto,id);
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "사용자 프로필 수정 성공",
+                userService.updateInfo(requestDto,id)
+        );
     }
 
     @Operation(summary = "사용자 비밀번호 재설정")
     @PatchMapping("/{id}/password")
-    public UserDTO updatePassword(
+    public CommonResponseDTO<UserDTO> updatePassword(
             @PathVariable("id") Long id,
             @RequestBody UserPasswordDTO passwordDTO
             ){
-        return userService.updatePassword(passwordDTO,id);
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "사용자 비밀번호 재설정 성공",
+                userService.updatePassword(passwordDTO,id)
+        );
     }
 
     @Operation(summary = "사용자 현재 비밀번호 확인")
     @GetMapping("/{id}/password")
-    public UserPwDTO checkPassword(
+    public CommonResponseDTO<UserPwDTO> checkPassword(
             @PathVariable("id") Long id,
             @RequestBody UserCheckPwDTO checkPwDTO
             ){
-        return userService.checkPw(checkPwDTO,id);
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "비밀번호 확인 성공",
+                userService.checkPw(checkPwDTO,id)
+        );
     }
 
 //    @Operation(summary = "토큰 재발급")
@@ -87,9 +123,14 @@ public class UserController {
 
     @Operation(summary = "회원 이미지 url 생성하기")
     @GetMapping("/image")
-    public AwsS3Url getImageUrl() {
+    public CommonResponseDTO<AwsS3Url> getImageUrl() {
         log.info("회원 이미지 url 생성하기");
-        return userService.getImageUrl();
+        return CommonResponseDTO.onSuccess(
+                200,
+                true,
+                "회원 이미지 url 생성하기 성공",
+                userService.getImageUrl()
+        );
     }
 }
 
