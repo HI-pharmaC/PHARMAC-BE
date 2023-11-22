@@ -19,12 +19,12 @@ public class HistoryVo {
     private String symptom;
 
     @Schema(defaultValue = "2023-10-20", description = "복용 시작 일자")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
     @NotEmpty(message = "복용 시작 날짜를 입력해주세요")
     private LocalDate startDate;
 
     @Schema(defaultValue = "2023-10-30", description = "복용 완료 일자")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss Z")
     private LocalDate endDate;
 
     @Schema(defaultValue = "false", description = "현재 복용 여부")
