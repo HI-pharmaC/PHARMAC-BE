@@ -4,6 +4,7 @@ import PharmaC.backend.domain.User.dto.UserDTO;
 import PharmaC.backend.domain.User.dto.request.*;
 import PharmaC.backend.domain.User.dto.response.UserIdDTO;
 import PharmaC.backend.domain.User.dto.response.UserPwDTO;
+import PharmaC.backend.domain.User.exception.UserNotFound;
 import PharmaC.backend.domain.User.repository.UserRepository;
 import PharmaC.backend.global.jwt.TokenProvider;
 import PharmaC.backend.domain.User.dto.response.TokenDTO;
@@ -43,7 +44,7 @@ public class UserService {
     @Transactional
     public TokenDTO login(UserSignInRequestDTO requestDto){
         User user = userRepository.findBySiteId(requestDto.getSiteId())
-                .orElseThrow(()-> new IllegalArgumentException("가입된 아이디가 아닙니다"));
+                .orElseThrow(()-> {throw UserNotFound.EXCEPTION; } );
         validateMatchedPassword(requestDto.getPassword(), user.getPassword());
 
         String accessToken = tokenProvider.createAccessToken(user.getUsername(),user.getRole().name());
