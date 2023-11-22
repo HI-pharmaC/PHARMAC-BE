@@ -2,7 +2,6 @@ package PharmaC.backend.domain.History.dto;
 
 import PharmaC.backend.domain.History.domain.History;
 import java.time.LocalDate;
-import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 
